@@ -38,4 +38,59 @@ ActiveRecord::Schema.define(version: 2019_06_14_212609) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "holes", force: :cascade do |t|
+    t.string "name"
+    t.time "start_time"
+    t.integer "duration"
+    t.string "par"
+    t.string "birdie"
+    t.string "eagle"
+    t.integer "tournament_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tournament_id"], name: "index_holes_on_tournament_id"
+  end
+
+  create_table "players", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "scores", force: :cascade do |t|
+    t.integer "score"
+    t.integer "hole_id"
+    t.integer "player_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hole_id"], name: "index_scores_on_hole_id"
+    t.index ["player_id"], name: "index_scores_on_player_id"
+  end
+
+  create_table "teamplayers", force: :cascade do |t|
+    t.integer "team_id"
+    t.integer "player_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_teamplayers_on_player_id"
+    t.index ["team_id"], name: "index_teamplayers_on_team_id"
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string "name"
+    t.integer "tournament_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tournament_id"], name: "index_teams_on_tournament_id"
+  end
+
+  create_table "tournaments", force: :cascade do |t|
+    t.string "name"
+    t.date "date"
+    t.integer "per_team"
+    t.string "entry_code", limit: 4
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
 end
